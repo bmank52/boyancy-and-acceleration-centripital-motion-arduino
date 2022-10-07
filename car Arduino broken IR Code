@@ -1,0 +1,60 @@
+// Written by Bryce Mankovsky 7/25/22
+//4 wheel car controlled with IR light
+
+#include <IRremote.h> 
+#define forward 0xE718FF00 // 2 on remote
+#define back    0xAD52FF00 // 8 on remote
+#define left    0xF708FF00 // 4 on remote
+#define right   0xA55AFF00 // 6 on remote
+int IR_Recive = 13; //pin set to ir input
+
+int motor1pin1 = 2;
+int motor1pin2 = 3;
+
+int motor2pin1 = 4;
+int motor2pin2 = 5;
+
+int motor3pin1 = 8;
+int motor3pin2 = 9;
+
+int motor4pin1 = 10;
+int motor4pin2 = 11;
+
+void setup() {
+  Serial.begin(9600);
+  IrReceiver.begin(IR_Recive);
+  
+  //set all motor pins to output
+  pinMode(motor1pin1, OUTPUT);
+  pinMode(motor1pin2, OUTPUT);
+  pinMode(motor2pin1, OUTPUT);
+  pinMode(motor2pin2, OUTPUT);
+  pinMode(motor3pin1, OUTPUT);
+  pinMode(motor3pin2, OUTPUT);
+  pinMode(motor4pin1, OUTPUT);
+  pinMode(motor4pin2, OUTPUT);
+
+}
+
+void loop() {
+  if (IrReceiver.decode()){ //if there is an ir signal
+    Serial.println(IrReceiver.decodedIRData.decodedRawData, HEX);
+    IrReceiver.resume();
+  }
+
+  switch(IrReceiver.decodedIRData.decodedRawData){
+    case forward: 
+      Serial.println("FORWARD");
+      digitalWrite(motor1pin1, HIGH);
+      digitalWrite(motor1pin2, LOW);
+      digitalWrite(motor2pin1, HIGH);
+      digitalWrite(motor2pin2, LOW);
+    //case back:
+
+    //case left:
+
+    //case right:
+    
+  }
+  
+}
